@@ -10,6 +10,7 @@ export const DEFAULTS: Required<VideoPosterConfig> = {
   mode: 'automatic',
   format: 'webp',
   offset: 0,
+  maxWidth: 1200,
   quality: 0.85,
 }
 
@@ -38,6 +39,9 @@ export function resolveConfig(
   }
   if (!Number.isFinite(merged.offset) || merged.offset < 0) {
     throw new Error('videoPoster: `offset` must be a number >= 0')
+  }
+  if (merged.maxWidth !== -1 && !(Number.isInteger(merged.maxWidth) && merged.maxWidth > 0)) {
+    throw new Error('videoPoster: `maxWidth` must be a positive integer, or -1 for the video size')
   }
   if (!Number.isFinite(merged.quality) || merged.quality < 0 || merged.quality > 1) {
     throw new Error('videoPoster: `quality` must be a number between 0 and 1')

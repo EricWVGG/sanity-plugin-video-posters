@@ -15,7 +15,7 @@ import {videoPosters} from 'sanity-plugin-video-posters'
 
 export default defineConfig({
   // ...
-  plugins: [videoPosters({mode: 'automatic', format: 'webp', offset: 0, quality: 0.85})],
+  plugins: [videoPosters({mode: 'automatic', format: 'webp', offset: 0, maxWidth: 1200, quality: 0.85})],
 })
 ```
 
@@ -42,6 +42,7 @@ Set them on the plugin for defaults, or on `options.videoPoster` per field (fiel
 | `mode` | `'automatic'` | `'automatic'` generates when the video changes; `'manual'` only via the button. |
 | `format` | `'webp'` | `'webp'`, `'jpeg'` or `'png'`. WebP falls back to JPEG in browsers that can't encode it. |
 | `offset` | `0` | Seconds into the video for the frame. Clamped to the video's duration. |
+| `maxWidth` | `1200` | Maximum poster width in pixels. Larger frames are scaled down (aspect ratio kept), smaller ones are never enlarged. `-1` keeps the video's own resolution. |
 | `quality` | `0.85` | Encoder quality, 0–1. Ignored for PNG. |
 
 A **Generate poster** / **Regenerate poster** button appears under the field in both modes.

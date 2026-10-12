@@ -27,6 +27,7 @@ export function useGeneratePoster(
         const url = buildFileUrl(parts, {projectId, dataset})
         const {blob, format} = await captureFrame(url, {
           offset: options.offset,
+          maxWidth: options.maxWidth,
           format: options.format,
           quality: options.quality,
         })
@@ -44,7 +45,7 @@ export function useGeneratePoster(
         setIsGenerating(false)
       }
     },
-    [client, onChange, options.format, options.offset, options.quality, toast],
+    [client, onChange, options.format, options.maxWidth, options.offset, options.quality, toast],
   )
 
   return {generate, isGenerating}

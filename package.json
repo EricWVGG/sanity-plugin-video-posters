@@ -28,9 +28,7 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "sanity.json",
-    "src",
-    "v2-incompatible.js"
+    "src"
   ],
   "scripts": {
     "build": "plugin-kit verify-package --silent && pkg-utils build --strict --check --clean",
@@ -40,8 +38,7 @@
     "watch": "pkg-utils watch --strict"
   },
   "dependencies": {
-    "@sanity/asset-utils": "^2.0.0",
-    "@sanity/incompatible-plugin": "^1.0.5"
+    "@sanity/asset-utils": "^2.0.0"
   },
   "devDependencies": {
     "@sanity/pkg-utils": "10.4.4",
@@ -74,6 +71,7 @@
     },
     "verifyPackage": {
       "eslintImports": false,
+      "sanityV2Json": false,
       "nodeEngine": false
     }
   },

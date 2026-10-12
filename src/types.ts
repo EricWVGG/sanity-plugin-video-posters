@@ -10,6 +10,11 @@ export interface VideoPosterConfig {
   format?: PosterFormat
   /** Seconds into the video to grab the frame from. Clamped to the video duration. */
   offset?: number
+  /**
+   * Maximum poster width in pixels. Larger frames are scaled down, smaller ones are never
+   * enlarged. Use `-1` to keep the video's own resolution. Defaults to 1200.
+   */
+  maxWidth?: number
   /** Encoder quality, 0–1. Ignored for PNG. */
   quality?: number
 }

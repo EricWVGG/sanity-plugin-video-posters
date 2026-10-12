@@ -2,6 +2,8 @@ import type {PosterFormat} from './types'
 
 export interface CaptureOptions {
   offset: number
+  /** Maximum output width in pixels; `-1` keeps the video's own size. */
+  maxWidth: number
   format: PosterFormat
   quality: number
   /** Milliseconds before giving up. */
@@ -55,7 +57,7 @@ class CaptureError extends Error {
 
 async function captureFromSource(
   src: string,
-  {offset, format, quality, timeout = 30000}: CaptureOptions,
+  {offset, maxWidth, format, quality, timeout = 30000}: CaptureOptions,
   crossOrigin: boolean,
 ): Promise<CaptureResult> {
   const video = document.createElement('video')
@@ -89,11 +91,12 @@ async function captureFromSource(
         throw decodeError('The video has no decodable picture (unsupported codec?).')
       }
       const canvas = document.createElement('canvas')
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
+      const size = scaledSize(video.videoWidth, video.videoHeight, maxWidth)
+      canvas.width = size.width
+      canvas.height = size.height
       const ctx = canvas.getContext('2d')
       if (!ctx) throw decodeError('Canvas is not available in this browser.')
-      ctx.drawImage(video, 0, 0)
+      ctx.drawImage(video, 0, 0, size.width, size.height)
       return encode(canvas, format, quality)
     })()
     const timeoutPromise = new Promise<never>((_, reject) => {
@@ -109,6 +112,12 @@ async function captureFromSource(
     video.load()
     video.remove()
   }
+}
+
+/** Scales down to `maxWidth` keeping the aspect ratio; never enlarges. `-1` means no limit. */
+export function scaledSize(width: number, height: number, maxWidth: number) {
+  if (maxWidth < 0 || width <= maxWidth) return {width, height}
+  return {width: maxWidth, height: Math.max(1, Math.round((height * maxWidth) / width))}
 }
 
 function decodeError(message: string) {

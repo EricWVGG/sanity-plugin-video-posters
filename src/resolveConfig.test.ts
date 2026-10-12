@@ -8,6 +8,7 @@ describe('resolveConfig', () => {
       mode: 'automatic',
       format: 'webp',
       offset: 0,
+      maxWidth: 1200,
       quality: 0.85,
     })
   })
@@ -16,10 +17,15 @@ describe('resolveConfig', () => {
     expect(r.mode).toBe('manual')
     expect(r.format).toBe('jpeg')
   })
+  it('accepts -1 for the video size', () => {
+    expect(resolveConfig({maxWidth: 800}, {videoField: 'v', maxWidth: -1}).maxWidth).toBe(-1)
+  })
   it('rejects invalid values', () => {
     expect(() => resolveConfig(undefined, {videoField: ''})).toThrow()
     expect(() => resolveConfig(undefined, {videoField: 'v', offset: -1})).toThrow()
     expect(() => resolveConfig(undefined, {videoField: 'v', quality: 2})).toThrow()
+    expect(() => resolveConfig(undefined, {videoField: 'v', maxWidth: 0})).toThrow()
+    expect(() => resolveConfig(undefined, {videoField: 'v', maxWidth: -2})).toThrow()
     expect(() => resolveConfig(undefined, {videoField: 'v', format: 'gif' as never})).toThrow()
   })
 })
