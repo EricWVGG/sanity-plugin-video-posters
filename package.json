@@ -82,5 +82,9 @@
     "onlyBuiltDependencies": [
       "esbuild"
     ]
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/EricWVGG/sanity-plugin-video-posters/issues"
+  },
+  "homepage": "https://github.com/EricWVGG/sanity-plugin-video-posters#readme"
 }
