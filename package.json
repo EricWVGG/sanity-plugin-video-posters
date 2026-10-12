@@ -63,7 +63,7 @@
     "styled-components": "^6.1"
   },
   "engines": {
-    "node": ">=18.0.0 < 23",
+    "node": ">=20.19 <22 || >=22.12",
     "pnpm": ">=9"
   },
   "packageManager": "pnpm@10.33.0",
@@ -73,7 +73,8 @@
       "extensions": "js,png,svg,gif,jpeg,css"
     },
     "verifyPackage": {
-      "eslintImports": false
+      "eslintImports": false,
+      "nodeEngine": false
     }
   },
   "pnpm": {
