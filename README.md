@@ -15,7 +15,15 @@ import {videoPosters} from 'sanity-plugin-video-posters'
 
 export default defineConfig({
   // ...
-  plugins: [videoPosters({mode: 'automatic', format: 'webp', offset: 0, maxWidth: 1200, quality: 0.85})],
+  plugins: [
+    videoPosters({ 
+      mode: 'automatic', 
+      format: 'webp', 
+      offset: 0, 
+      maxWidth: 1200, 
+      quality: 0.85
+    })
+  ],
 })
 ```
 
@@ -24,11 +32,23 @@ export default defineConfig({
 Declare the relationship on the **poster** field, naming the sibling video field. This works at any nesting depth, including inside array items.
 
 ```ts
-defineField({name: 'video', type: 'file', options: {accept: 'video/*'}}),
+defineField({
+  name: 'video', 
+  type: 'file', 
+  options: {
+    accept: 'video/*'
+  }
+}),
+
 defineField({
   name: 'poster',
   type: 'image',
-  options: {videoPoster: {videoField: 'video' /*, mode, format, offset, quality */}},
+  options: {
+    videoPoster: {
+      videoField: 'video'
+      /* , mode, format, offset, quality */
+    }
+  },
 }),
 ```
 
@@ -39,13 +59,13 @@ Set them on the plugin for defaults, or on `options.videoPoster` per field (fiel
 | Option | Default | Description |
 | --- | --- | --- |
 | `videoField` | (required, field only) | Name of the sibling `file` field holding the video. |
-| `mode` | `'automatic'` | `'automatic'` generates when the video changes; `'manual'` only via the button. |
+| `mode` | `'automatic'` | `'automatic'` generates when the video file changes; `'manual'` only generates  via the button. |
 | `format` | `'webp'` | `'webp'`, `'jpeg'` or `'png'`. WebP falls back to JPEG in browsers that can't encode it. |
 | `offset` | `0` | Seconds into the video for the frame. Clamped to the video's duration. |
 | `maxWidth` | `1200` | Maximum poster width in pixels. Larger frames are scaled down (aspect ratio kept), smaller ones are never enlarged. `-1` keeps the video's own resolution. |
 | `quality` | `0.85` | Encoder quality, 0–1. Ignored for PNG. |
 
-A **Generate poster** / **Regenerate poster** button appears under the field in both modes.
+A **Generate poster** / **Regenerate poster** button appears next to the field in both modes.
 
 ## Behavior
 
@@ -56,7 +76,7 @@ A **Generate poster** / **Regenerate poster** button appears under the field in 
 
 - Only videos added through the Studio form get posters. Videos uploaded through the API or the Media Library do not.
 - Only codecs the browser can decode work (for example HEVC `.mov` files often fail outside Safari). Failures show an error toast and the form stays usable.
-- The Studio origin must be allowed by the project's CORS settings, which it is for any working Studio. If the CDN refuses a direct read, the plugin downloads the file and reads the frame from that copy.
+- The Studio origin must be allowed by the project's CORS settings, which it will be for any working Studio. If the CDN refuses a direct read, the plugin downloads the file and reads the frame from that copy.
 
 ## License
 
