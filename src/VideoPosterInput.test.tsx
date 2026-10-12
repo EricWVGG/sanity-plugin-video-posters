@@ -9,7 +9,8 @@ const generate = vi.fn()
 
 vi.mock('sanity', () => ({useFormValue: () => videoRef}))
 vi.mock('@sanity/ui', () => ({
-  Stack: ({children}: {children: ReactNode}) => <div>{children}</div>,
+  Flex: ({children}: {children: ReactNode}) => <div>{children}</div>,
+  Box: ({children}: {children: ReactNode}) => <div>{children}</div>,
   Button: ({
     text,
     disabled,

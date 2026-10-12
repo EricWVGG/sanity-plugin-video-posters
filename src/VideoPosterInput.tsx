@@ -1,9 +1,25 @@
-import {Button, Stack} from '@sanity/ui'
+import {Box, Button, Flex} from '@sanity/ui'
 import {useEffect, useRef} from 'react'
+import styled from 'styled-components'
 import {useFormValue, type ObjectInputProps} from 'sanity'
 import {shouldAutoGenerate} from './shouldAutoGenerate'
 import type {ResolvedVideoPosterOptions} from './types'
 import {useGeneratePoster} from './useGeneratePoster'
+
+/**
+ * Sanity's image input has no size option, so cap the preview box with CSS. The box that
+ * directly contains the preview `<img>` is sized from the image's aspect ratio
+ * (`--image-width` / `--image-height`), so derive its width from the height cap. If Sanity
+ * changes that markup the preview simply returns to full size.
+ */
+const THUMBNAIL_HEIGHT = 160
+const Thumbnail = styled.div`
+  *:has(> img[data-testid='hotspot-image-input']) {
+    max-height: ${THUMBNAIL_HEIGHT}px;
+    max-width: 100%;
+    width: calc(${THUMBNAIL_HEIGHT}px * var(--image-width) / var(--image-height));
+  }
+`
 
 interface Props {
   inputProps: ObjectInputProps
@@ -41,8 +57,10 @@ export function VideoPosterInput({inputProps, options}: Props) {
   }, [videoRef])
 
   return (
-    <Stack gap={3}>
-      {renderDefault(inputProps)}
+    <Flex gap={3} align="flex-start">
+      <Box flex={1}>
+        <Thumbnail>{renderDefault(inputProps)}</Thumbnail>
+      </Box>
       <Button
         mode="ghost"
         text={posterRef ? 'Regenerate poster' : 'Generate poster'}
@@ -50,6 +68,6 @@ export function VideoPosterInput({inputProps, options}: Props) {
         loading={isGenerating}
         onClick={() => videoRef && void generate(videoRef)}
       />
-    </Stack>
+    </Flex>
   )
 }
