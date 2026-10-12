@@ -29,7 +29,8 @@ export function VideoPosterInput({inputProps, options}: Props) {
         mode: options.mode,
         readOnly: Boolean(readOnly),
         initialized: true,
-        isGenerating,
+        // A run in flight queues the newest video itself, so this never blocks.
+        isGenerating: false,
         previousVideoRef: prev.ref,
         videoRef,
       })

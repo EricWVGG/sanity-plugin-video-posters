@@ -53,3 +53,15 @@ function stripUndefined<T extends object>(obj: T | undefined): Partial<T> {
   if (!obj) return {}
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as Partial<T>
 }
+
+/** Like `resolveConfig`, but returns the error message instead of throwing. */
+export function tryResolveConfig(
+  pluginConfig: VideoPosterConfig | undefined,
+  fieldOptions: VideoPosterFieldOptions,
+): {options: ResolvedVideoPosterOptions} | {error: string} {
+  try {
+    return {options: resolveConfig(pluginConfig, fieldOptions)}
+  } catch (err) {
+    return {error: err instanceof Error ? err.message : String(err)}
+  }
+}

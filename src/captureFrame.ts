@@ -64,7 +64,7 @@ async function captureFromSource(
   if (crossOrigin) video.crossOrigin = 'anonymous'
   video.muted = true
   video.playsInline = true
-  video.preload = 'auto'
+  video.preload = 'metadata'
 
   let timer: ReturnType<typeof setTimeout> | undefined
   try {

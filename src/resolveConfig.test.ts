@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest'
-import {resolveConfig} from './resolveConfig'
+import {resolveConfig, tryResolveConfig} from './resolveConfig'
 
 describe('resolveConfig', () => {
   it('applies defaults', () => {
@@ -27,5 +27,16 @@ describe('resolveConfig', () => {
     expect(() => resolveConfig(undefined, {videoField: 'v', maxWidth: 0})).toThrow()
     expect(() => resolveConfig(undefined, {videoField: 'v', maxWidth: -2})).toThrow()
     expect(() => resolveConfig(undefined, {videoField: 'v', format: 'gif' as never})).toThrow()
+  })
+})
+
+describe('tryResolveConfig', () => {
+  it('returns options when valid', () => {
+    expect(tryResolveConfig(undefined, {videoField: 'v'})).toHaveProperty('options.videoField', 'v')
+  })
+  it('returns the error message instead of throwing', () => {
+    expect(tryResolveConfig(undefined, {videoField: 'v', quality: 2})).toEqual({
+      error: expect.stringContaining('quality'),
+    })
   })
 })
