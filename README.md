@@ -1,4 +1,4 @@
-# sanity-plugin-video-posters
+# 🎥 sanity-plugin-video-posters 🖼️
 
 A Sanity Studio (v5/v6) plugin that fills an `image` field with a poster frame taken from a sibling video `file` field. Everything happens in the browser: the Studio loads the video, grabs a frame onto a canvas, encodes it and uploads it as an image asset. There is no Sanity Function, Blueprint or FFMPEG binary to deploy.
 
