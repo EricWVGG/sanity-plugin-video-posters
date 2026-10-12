@@ -59,4 +59,4 @@ yalc.lock
 # Compiled plugin
 dist
 
-/misc/
+/_misc/
